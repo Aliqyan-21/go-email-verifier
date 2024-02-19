@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"log"
+	"net"
 	"os"
 )
 
@@ -15,11 +16,23 @@ func main() {
 		checkDomain(scanner.Text())
 	}
 
-	if err := scanner.Err(); err != nil {
-		log.Fatalf("Error: %v\n", err)
-	}
+	checkError(scanner.Err())
 }
 
 func checkDomain(domain string) {
+	var hasMX, hasSPF, hasDMARC bool
+	var spfRecords, demarcRecords string
 
+	mxRecords, err := net.LookupMX(domain)
+	checkError(err)
+
+	if len(mxRecords) > 0 {
+		hasMX = true
+	}
+}
+
+func checkError(err error) {
+	if err != nil {
+		log.Fatalf("Error: %v", err)
+	}
 }

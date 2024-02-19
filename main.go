@@ -12,8 +12,12 @@ import (
 func main() {
 	scanner := bufio.NewScanner(os.Stdin)
 	fmt.Printf("Domain, hasMX, hasSPF, spfRecords, hasDMARC, demarcRecords\n")
+	fmt.Println("Type 0 if want to exit program")
 
 	for scanner.Scan() {
+		if scanner.Text() == "0" {
+			os.Exit(0)
+		}
 		checkDomain(scanner.Text())
 	}
 
@@ -58,7 +62,7 @@ func checkDomain(domain string) {
 	fmt.Printf("hasSPF: %v\n", hasSPF)
 	fmt.Printf("spfRecord: %v\n", spfRecords)
 	fmt.Printf("hasDMARC: %v\n", hasDMARC)
-	fmt.Printf("dmarcRecords: %v\n", dmarcRecords)
+	fmt.Printf("dmarcRecords: %v\n\n", dmarcRecords)
 }
 
 func checkError(err error) {
